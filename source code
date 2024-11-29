@@ -1,0 +1,169 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Abdeali521/Team_Intelliverse_supply_chain_optimization/blob/main/source%20code\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Q1praLso0Txb",
+        "outputId": "18b10f0f-9423-44ef-f02f-ee6309144666"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Optimal Order Quantity (EOQ): 707.11 units\n",
+            "Total Inventory Cost: $1414.21\n"
+          ]
+        }
+      ],
+      "source": [
+        "\n",
+        "\n",
+        "\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import numpy as np\n",
+        "from scipy.optimize import linprog\n",
+        "\n",
+        "def supply_chain_optimization():\n",
+        "    # Input: Number of warehouses and retail locations\n",
+        "    num_warehouses = int(input(\"Enter the number of warehouses: \"))\n",
+        "    num_retailers = int(input(\"Enter the number of retail locations: \"))\n",
+        "\n",
+        "    # Input: Transportation cost matrix (size: num_warehouses x num_retailers)\n",
+        "    print(\"Enter the transportation cost matrix (rows = warehouses, columns = retail locations):\")\n",
+        "    transportation_cost = []\n",
+        "    for i in range(num_warehouses):\n",
+        "        row = list(map(float, input(f\"Enter costs from warehouse {i+1} to each retailer (separated by spaces): \").split()))\n",
+        "        transportation_cost.append(row)\n",
+        "\n",
+        "    # Input: Inventory cost for each warehouse\n",
+        "    print(\"Enter the inventory cost at each warehouse:\")\n",
+        "    inventory_cost = []\n",
+        "    for i in range(num_warehouses):\n",
+        "        cost = float(input(f\"Enter inventory cost at warehouse {i+1}: \"))\n",
+        "        inventory_cost.append(cost)\n",
+        "\n",
+        "    # Input: Demand for each retailer\n",
+        "    print(\"Enter the demand for each retail location:\")\n",
+        "    demand = list(map(int, input(\"Enter demand for each retailer (separated by spaces): \").split()))\n",
+        "\n",
+        "    # Supply (inventory at each warehouse)\n",
+        "    supply = list(map(int, input(\"Enter the supply (inventory) at each warehouse (separated by spaces): \").split()))\n",
+        "\n",
+        "    # Decision variable: amount to be shipped from warehouse i to retailer j\n",
+        "    c = []  # Objective function: costs to minimize\n",
+        "    for i in range(num_warehouses):\n",
+        "        for j in range(num_retailers):\n",
+        "            c.append(transportation_cost[i][j])\n",
+        "\n",
+        "    # Constraints: Supply and demand constraints\n",
+        "    A_eq = []\n",
+        "    b_eq = []\n",
+        "\n",
+        "    # Supply constraints (sum of shipments from each warehouse should not exceed the supply)\n",
+        "    for i in range(num_warehouses):\n",
+        "        row = [0] * (num_warehouses * num_retailers)\n",
+        "        for j in range(num_retailers):\n",
+        "            row[i * num_retailers + j] = 1\n",
+        "        A_eq.append(row)\n",
+        "        b_eq.append(supply[i])\n",
+        "\n",
+        "    # Demand constraints (sum of shipments to each retailer should meet the demand)\n",
+        "    for j in range(num_retailers):\n",
+        "        row = [0] * (num_warehouses * num_retailers)\n",
+        "        for i in range(num_warehouses):\n",
+        "            row[i * num_retailers + j] = 1\n",
+        "        A_eq.append(row)\n",
+        "        b_eq.append(demand[j])\n",
+        "\n",
+        "    # Bounds: shipments should be non-negative\n",
+        "    bounds = [(0, None)] * (num_warehouses * num_retailers)\n",
+        "\n",
+        "    # Solve the linear programming problem\n",
+        "    result = linprog(c, A_eq=A_eq, b_eq=b_eq, bounds=bounds, method='highs')\n",
+        "\n",
+        "    if result.success:\n",
+        "        print(\"\\nOptimal Solution:\")\n",
+        "        print(\"Shipment amounts from each warehouse to each retailer:\")\n",
+        "        shipment_matrix = np.array(result.x).reshape(num_warehouses, num_retailers)\n",
+        "        for i in range(num_warehouses):\n",
+        "            for j in range(num_retailers):\n",
+        "                print(f\"Warehouse {i+1} -> Retailer {j+1}: {shipment_matrix[i][j]:.2f} units\")\n",
+        "\n",
+        "        # Calculate total cost (including inventory cost)\n",
+        "        total_cost = np.sum(np.array(result.x).reshape(num_warehouses, num_retailers) * transportation_cost)\n",
+        "        inventory_cost_total = sum(np.array(supply) * np.array(inventory_cost))\n",
+        "\n",
+        "        print(f\"\\nTotal transportation cost: {total_cost:.2f}\")\n",
+        "        print(f\"Total inventory cost: {inventory_cost_total:.2f}\")\n",
+        "        print(f\"Total cost (Transportation + Inventory): {total_cost + inventory_cost_total:.2f}\")\n",
+        "    else:\n",
+        "        print(\"Optimization failed. Check constraints or inputs.\")\n",
+        "\n",
+        "# Run the optimization function\n",
+        "supply_chain_optimization()\n"
+      ],
+      "metadata": {
+        "id": "YzUDFHC103fL",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "eec37518-86f5-42cb-fce8-44de42ef3e9b"
+      },
+      "execution_count": 12,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Enter the number of warehouses: 2\n",
+            "Enter the number of retail locations: 3\n",
+            "Enter the transportation cost matrix (rows = warehouses, columns = retail locations):\n",
+            "Enter costs from warehouse 1 to each retailer (separated by spaces): 4 6 8\n",
+            "Enter costs from warehouse 2 to each retailer (separated by spaces): 5 7 3\n",
+            "Enter the inventory cost at each warehouse:\n",
+            "Enter inventory cost at warehouse 1: 2\n",
+            "Enter inventory cost at warehouse 2: 3\n",
+            "Enter the demand for each retail location:\n",
+            "Enter demand for each retailer (separated by spaces): 10 15 20\n",
+            "Enter the supply (inventory) at each warehouse (separated by spaces): 20 30\n",
+            "Optimization failed. Check constraints or inputs.\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
