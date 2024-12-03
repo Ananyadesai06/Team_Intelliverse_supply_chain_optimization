@@ -1,18 +1,18 @@
 # supply_chain_optimization
-# Name:-Abdeali
+Name:-Abdeali
 Roll No:-KU2407U246
-
-# Name:-Yashika
+  
+Name:-Yashika
 Roll No:-KU2407U
 
-# Name:-Ananya
+Name:-Ananya
 Roll No:-KU2407U
 
-# Name:-Anakha
+Name:-Anakha
 Roll No:-KU2407U
 
-<br>
-# OBJECTIVE OF THE PROJECT  <br>
+
+# OBJECTIVE OF THE PROJECT  
 
 The objective of this project is to analyze logistics data, identify inefficiencies in a supply chain, and optimize resource allocation. Specifically, it aims to:
 
