@@ -1,18 +1,18 @@
 # supply_chain_optimization
-#Name:-Abdeali
+# Name:-Abdeali
 Roll No:-KU2407U246
 
-#Name:-Yashika
+# Name:-Yashika
 Roll No:-KU2407U
 
-#Name:-Ananya
+# Name:-Ananya
 Roll No:-KU2407U
 
-#Name:-Anakha
+# Name:-Anakha
 Roll No:-KU2407U
 
 <br>
-#Objective of the Project  <br>
+# OBJECTIVE OF THE PROJECT  <br>
 
 The objective of this project is to analyze logistics data, identify inefficiencies in a supply chain, and optimize resource allocation. Specifically, it aims to:
 
@@ -51,7 +51,13 @@ Reduce logistics costs by identifying costly inefficiencies.
 
 Improve delivery times through better planning and resource distribution.
 
-Enhance overall operational efficiency using data-driven decision-making.
+
+# PYTHON LIBRARIES USED:-
+1. Numpy
+2. Pandas
+3. matplotlib
+
+
 
 
 By combining analytical outputs and visual insights, this project enables stakeholders to quickly understand supply chain performance and implement effective optimizations.
