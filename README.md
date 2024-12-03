@@ -12,8 +12,8 @@ Roll No:-KU2407U
 Roll No:-KU2407U
 
 <br>
-#Objective of the Project
-<br>
+#Objective of the Project  <br>
+
 The objective of this project is to analyze logistics data, identify inefficiencies in a supply chain, and optimize resource allocation. Specifically, it aims to:
 
 1. Data Analysis:
