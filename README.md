@@ -1,1 +1,1 @@
-# Team_Intelliverse_supply_chain_optimization
+# supply_chain_optimization
