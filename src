@@ -1,1 +1,54 @@
+import numpy as np
+import pandas as pd
 
+# Function to analyze logistics data and identify inefficiencies
+def analyze_supply_chain(locations, transportation_costs, delivery_times, resource_allocation):
+    # Convert inputs into pandas DataFrame
+    data = pd.DataFrame({
+        'Location': locations,
+        'Transportation Cost': transportation_costs,
+        'Delivery Time (hrs)': delivery_times,
+        'Resources Used': resource_allocation
+    })
+    
+    print("\n--- Input Data ---")
+    print(data)
+    
+    # Calculate inefficiencies
+    avg_cost = np.mean(data['Transportation Cost'])
+    avg_time = np.mean(data['Delivery Time (hrs)'])
+    avg_resources = np.mean(data['Resources Used'])
+    
+    print("\n--- Analysis ---")
+    print(f"Average Transportation Cost: {avg_cost:.2f}")
+    print(f"Average Delivery Time: {avg_time:.2f} hrs")
+    print(f"Average Resources Used: {avg_resources:.2f}")
+    
+    # Identify inefficiencies
+    inefficiencies = data[(data['Transportation Cost'] > avg_cost) | 
+                          (data['Delivery Time (hrs)'] > avg_time) | 
+                          (data['Resources Used'] > avg_resources)]
+    
+    print("\n--- Inefficiencies Found ---")
+    if not inefficiencies.empty:
+        print(inefficiencies)
+    else:
+        print("No inefficiencies found.")
+    
+    # Optimize resource allocation
+    optimized_allocation = data.copy()
+    optimized_allocation['Optimized Resources'] = avg_resources - (optimized_allocation['Resources Used'] - avg_resources) * 0.5
+    optimized_allocation['Optimized Resources'] = optimized_allocation['Optimized Resources'].clip(lower=0)
+    
+    print("\n--- Optimized Resource Allocation ---")
+    print(optimized_allocation[['Location', 'Resources Used', 'Optimized Resources']])
+    return optimized_allocation
+
+# Example Inputs
+locations = input("Enter locations separated by commas: ").split(',')
+transportation_costs = list(map(float, input("Enter transportation costs (comma-separated): ").split(',')))
+delivery_times = list(map(float, input("Enter delivery times (in hours, comma-separated): ").split(',')))
+resource_allocation = list(map(float, input("Enter resources used (comma-separated): ").split(',')))
+
+# Call function
+optimized_allocation = analyze_supply_chain(locations, transportation_costs, delivery_times, resource_allocation)
