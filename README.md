@@ -1,14 +1,14 @@
 # Supply_chain_optimization
-Name:-Abdeali
+Name:-Abdeali,
 Roll No:-KU2407U246
   
-Name:-Yashika
+Name:-Yashika,
 Roll No:-KU2407U
 
-Name:-Ananya
+Name:-Ananya,
 Roll No:-KU2407U
 
-Name:-Anakha
+Name:-Anakha,
 Roll No:-KU2407U
 
 
